@@ -16,4 +16,5 @@ type Query {
   """From zeto to argm TO"""
   randomFromZeroTo(to: Int): Int!
   todos: [Todo!]!
+  todo(id: Int!): Todo!
 }

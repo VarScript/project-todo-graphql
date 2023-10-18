@@ -1,10 +1,4 @@
-import {
-  Args,
-  Float,
-  Int,
-  Query,
-  Resolver,
-} from '@nestjs/graphql';
+import { Args, Float, Int, Query, Resolver } from '@nestjs/graphql';
 import { type } from 'os';
 
 @Resolver()
@@ -27,12 +21,7 @@ export class HelloWorldResolver {
     description: 'From zeto to argm TO',
   })
   getRamdomFromZeroTo(
-    @Args('to', {
-      nullable: true,
-      type: () => Int,
-    })
-    to: number = 6,
-  ): number {
+    @Args('to', { nullable: true, type: () => Int }) to: number = 6): number {
     return Math.floor(Math.random() * to);
   }
 }
