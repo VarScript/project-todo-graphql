@@ -6,7 +6,8 @@ import { Todo } from './entity/todo.entity';
 import {
   CreateTodoInput,
   UpdateTodoInput,
-} from './dto/inputs';
+  StatusArgs,
+} from './dto';
 
 @Injectable()
 export class TodoService {
@@ -15,12 +16,42 @@ export class TodoService {
     {
       id: 2,
       description: 'Piedra del Espacio',
-      done: false,
+      done: true,
     },
     { id: 3, description: 'Piedra del Poder', done: false },
+    {
+      id: 4,
+      description: 'Piedra del Tiempo',
+      done: false,
+    },
   ];
 
-  findAll(): Todo[] {
+  get totalTodos() {
+    return this.todos.length;
+  }
+
+  get completedTodos() {
+    const todoDone = this.todos.filter(
+      (todo) => todo.done === true,
+    );
+    const completedTodo = todoDone.length;
+    return completedTodo;
+  }
+
+  get pendingTodos() {
+    const todoPen = this.todos.filter(
+      (todo) => todo.done === false,
+    );
+    const pendingTodo = todoPen.length;
+    return pendingTodo;
+  }
+
+  findAll(statusArgs: StatusArgs): Todo[] {
+    const { status } = statusArgs;
+    if (status !== undefined)
+      return this.todos.filter(
+        (todo) => todo.done === status,
+      );
     return this.todos;
   }
 

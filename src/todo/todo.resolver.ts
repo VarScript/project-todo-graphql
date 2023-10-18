@@ -10,25 +10,27 @@ import { TodoService } from './todo.service';
 import {
   CreateTodoInput,
   UpdateTodoInput,
-} from './dto/inputs';
+  StatusArgs,
+} from './dto';
+import { AggregationType } from './types/aggregations.type';
 
-@Resolver( () => Todo)
+@Resolver(() => Todo)
 export class TodoResolver {
   constructor(private readonly todoService: TodoService) {}
 
-  @Query(() => [Todo], { name: 'todos' })
-  findAll(): Todo[] {
-    return this.todoService.findAll();
+  @Query(() => [Todo], { name: 'GetAllTodos' })
+  findAll(@Args() statusArgs: StatusArgs): Todo[] {
+    return this.todoService.findAll(statusArgs);
   }
 
-  @Query(() => Todo, { name: 'todo' })
+  @Query(() => Todo, { name: 'GetTodo' })
   findOne(
     @Args('id', { type: () => Int }) id: number,
   ): Todo {
     return this.todoService.findOne(id);
   }
 
-  @Mutation(() => Todo, { name: 'createTodo' })
+  @Mutation(() => Todo, { name: 'CreateTodo' })
   createTodo(
     @Args('createTodoInput')
     createTodoInput: CreateTodoInput,
@@ -36,7 +38,7 @@ export class TodoResolver {
     return this.todoService.create(createTodoInput);
   }
 
-  @Mutation(() => Todo, { name: 'updateTodo' })
+  @Mutation(() => Todo, { name: 'UpdateTodo' })
   updateTodo(
     @Args('updateTodoInput')
     updateTodoInput: UpdateTodoInput,
@@ -44,8 +46,33 @@ export class TodoResolver {
     return this.todoService.update(updateTodoInput);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Boolean, { name: 'DeleteTodo' })
   removeTodo(@Args('id', { type: () => Int }) id: number) {
     return this.todoService.delete(id);
+  }
+
+  @Query(() => Int, { name: 'TotalTodosNumber' })
+  totalTodos() {
+    return this.todoService.totalTodos;
+  }
+
+  @Query(() => Int, { name: 'CompletedTodosNumber' })
+  completedTodos() {
+    return this.todoService.completedTodos;
+  }
+
+  @Query(() => Int, { name: 'PendingTodosNumber' })
+  pendignTodos() {
+    return this.todoService.pendingTodos;
+  }
+
+  @Query(() => AggregationType, { name: 'Aggregations' })
+  aggregations(): AggregationType {
+    return {
+      complete: this.todoService.completedTodos,
+      pending: this.todoService.pendingTodos,
+      total: this.todoService.totalTodos,
+      totalTodosComplete: this.todoService.totalTodos,
+    };
   }
 }
