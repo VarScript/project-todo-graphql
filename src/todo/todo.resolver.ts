@@ -12,7 +12,7 @@ import {
   UpdateTodoInput,
 } from './dto/inputs';
 
-@Resolver()
+@Resolver( () => Todo)
 export class TodoResolver {
   constructor(private readonly todoService: TodoService) {}
 
