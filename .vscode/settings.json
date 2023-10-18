@@ -1,0 +1,10 @@
+{
+    "diffEditor.experimental.showEmptyDecorations": false,
+    "diffEditor.experimental.showMoves": true,
+    "diffEditor.renderMarginRevertIcon": true,
+    "diffEditor.useInlineViewWhenSpaceIsLimited": true,
+    "workbench.activityBar.visible": false,
+    "workbench.editor.decorations.colors": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.cursorBlinking": "blink"
+}
